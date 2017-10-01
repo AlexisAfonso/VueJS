@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,27 +23,25 @@
     <fieldset>
         <form class="row">
             <div class="input-field col m6 offset-m3">
-                <input id="taskTitle" type="text">
+                <input id="taskTitle" type="text" v-model="task">
                 <label for="taskTitle">Intitulé de la tâche</label>
             </div>
             <div class="col m4 offset-m5">
-                <button type="submit" class="waves-effect waves-light btn">Ajouter</button>
+                <button type="submit" class="waves-effect waves-light btn" v-on:click="addTask(task)">Ajouter</button>
             </div>
         </form>
     </fieldset>
 
     <h3>Liste des tâches</h3>
 
-    <p>Il reste <strong>3 tâche</strong> sur <strong>5</strong> à effectuer.</p>
-
-    {{ remaining() }}
+    <p>Il reste <strong>{{ remainingComputed }} {{ 'tâche' | pluralised(remainingComputed) }}</strong> sur <strong>{{ tasks.length }}</strong> à effectuer.</p>
 
     <ul class="collection">
         <li class="collection-item" v-for="(task, index) in tasks">
-            <input type="checkbox" id="'t_' + (index +1)" v-model="task.isDone">
-            <label for="'t_' + (index +1)">    {{task.title}}</label>
+            <input type="checkbox" id="'t_' + index" v-model="task.isDone">
+            <label for="'t_' + index">    {{task.title}}</label>
             <a href="#" class="link-delete" title="Supprimer cette tâche">
-                <i class="small material-icons">delete_forever</i>
+                <i class="small material-icons" v-on:click="deleteTask(index)">delete_forever</i>
             </a>
         </li>
     </ul>
